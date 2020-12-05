@@ -7,3 +7,8 @@ class PostForm(FlaskForm):
     title = StringField("Blog title:", validators=[Required()])
     post = TextAreaField("Type Away:", validators=[Required()])
     submit = SubmitField("Post")
+
+class UpdatePostForm(FlaskForm):
+    title = StringField("Blog title", validators=[Required()])
+    post = TextAreaField("Type Away", validators=[Required()])
+    submit = SubmitField("Update")
