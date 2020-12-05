@@ -18,15 +18,9 @@ class User(UserMixin, db.Model):
     bio = db.Column(db.String())
     avatar_path = db.Column(db.String())
     password_hash = db.Column(db.String(255))
-    posts = db.relationship("Post",
-                            backref = "user",
-                            lazy = "dynamic")
-    comments = db.relationship("Comment",
-                                backref = "user",
-                                lazy = "dynamic")
-    liked = db.relationship("PostLike",
-                            backref = "user",
-                            lazy = "dynamic")
+    posts = db.relationship("Post",backref = "user",lazy = "dynamic")
+    comments = db.relationship("Comment",backref = "user",lazy = "dynamic")
+    liked = db.relationship("PostLike",backref = "user",lazy = "dynamic")
 
     @property
     def password(self):
@@ -58,3 +52,33 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return f"User {self.username}"
+
+class Post(db.Model):
+    __tablename__ = "posts"
+
+    id = db.Column(db.Integer, primary_key = True)
+    post_title = db.Column(db.String)
+    post_content = db.Column(db.Text)
+    posted_at = db.Column(db.DateTime)
+    upvotes = db.Column(db.Integer, default = 0)
+    downvotes = db.Column(db.Integer, default = 0)
+    post_by = db.Column(db.String)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    comments = db.relationship("Comment", foreign_keys = "Comment.post_id", backref = "post", lazy = "dynamic")
+
+    def save_post(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete_post(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    @classmethod
+    def get_user_posts(cls,id):
+        posts = Post.query.filter_by(user_id = id).order_by(Post.posted_at.desc()).all()
+        return posts
+
+    @classmethod
+    def get_all_posts(cls):
+        return Post.query.order_by(Post.posted_at).all()
