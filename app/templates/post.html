@@ -21,8 +21,6 @@
         </div>
     </div>
 </header>
-
-<!-- Post Content -->
 <article>
     <div class="container">
         <div class="row">
@@ -35,7 +33,6 @@
     </div>
 </article>
 <hr>
-<!-- Comment section -->
 <section>
     <div class="container">
         <div class="row">
@@ -66,7 +63,7 @@
                                     <p>{{comment.comment}}</p>
                                     <div style="margin-right: 10px;">
                                         {%if current_user.is_authenticated%}
-                                        <a href="{{url_for('main.fav_comment', id = post.id, comment_id = comment.id)}}" class="float-right btn text-white btn-danger"> <i class="fa fa-heart"></i>
+                                        <a href="{{url_for('main.fav_comment', id = post.id, comment_id = comment.id)}}" style="margin-left: 5px;" class="float-right btn text-white btn-danger"> <i class="fa fa-heart"></i>
                                             {{comment.like_count}}</a>
                                         {%else%}
                                         <a class="float-right btn text-white btn-danger"> <i class="fa fa-heart"></i>
@@ -74,7 +71,7 @@
                                         {%endif%}
                                         {%if current_user.is_authenticated%}
                                             {%if current_user.id == post.user_id%}
-                                                <a href="{{url_for('main.delete_comment', id = post.id, comment_id = comment.id)}}" class="btn text-white btn-danger"> <i
+                                                <a href="{{url_for('main.delete_comment', id = post.id, comment_id = comment.id)}}" class="float-right btn text-white btn-danger"> <i
                                                     class="far fa-trash-alt"></i>
                                                 </a>
                                             {%endif%}
