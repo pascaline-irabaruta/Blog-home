@@ -17,3 +17,10 @@ class CommentForm(FlaskForm):
     comment = TextAreaField("Post Comment", validators=[Required()])
     alias = StringField("Comment Alias")
     submit = SubmitField("Comment")
+
+class UpdateProfile(FlaskForm):
+    first_name = StringField("First name")
+    last_name = StringField("Last Name")
+    bio = TextAreaField("Bio")
+    email = StringField("Email")
+    submit = SubmitField("Update")
