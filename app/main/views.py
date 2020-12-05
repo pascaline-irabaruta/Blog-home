@@ -1,9 +1,9 @@
-from flask import (render_template, request, redirect, 
+from flask import (render_template, request, redirect,
                    url_for, abort)
 from . import main
 from ..models import User, Comment, Post, Subscribers
 from flask_login import login_required, current_user
-from .forms import (UpdateProfile, PostForm, 
+from .forms import (UpdateProfile, PostForm,
                     CommentForm, UpdatePostForm)
 from datetime import datetime
 import bleach
@@ -20,7 +20,7 @@ def index():
         new_sub = Subscribers(email = request.form.get("subscriber"))
         db.session.add(new_sub)
         db.session.commit()
-        welcome_message("Thank you for subscribing to the CM blog", 
+        welcome_message("Thank you for subscribing to the CM blog",
                         "email/welcome", new_sub.email)
     return render_template("index.html",
                             posts = posts,
@@ -40,7 +40,7 @@ def post(id):
         comment_form.alias.data = ""
         if current_user.is_authenticated:
             comment_alias = current_user.username
-        new_comment = Comment(comment = comment, 
+        new_comment = Comment(comment = comment,
                             comment_at = datetime.now(),
                             comment_by = comment_alias,
                             post_id = id)
@@ -65,7 +65,7 @@ def delete_comment(id, comment_id):
 def fav_comment(id, comment_id):
     post = Post.query.filter_by(id = id).first()
     comment = Comment.query.filter_by(id = comment_id).first()
-    comment.like_count = 1
+    comment.like_count = comment.like_count + 1
     db.session.add(comment)
     db.session.commit()
     return redirect(url_for('main.post', id = post.id))
@@ -86,7 +86,7 @@ def edit_post(id):
         db.session.commit()
         return redirect(url_for("main.post", id = post.id))
 
-    return render_template("edit_post.html", 
+    return render_template("edit_post.html",
                             post = post,
                             edit_form = edit_form)
 
@@ -97,7 +97,7 @@ def new_post():
     if post_form.validate_on_submit():
         post_title = post_form.title.data
         post_form.title.data = ""
-        post_content = bleach.clean(post_form.post.data, 
+        post_content = bleach.clean(post_form.post.data,
                                     tags = bleach.sanitizer.ALLOWED_TAGS + ["h1", "h2", "h3", "h4",
                                                                             "h5", "h6", "p", "span",
                                                                             "div", "br", "em", "strong"
@@ -112,11 +112,11 @@ def new_post():
         new_post.save_post()
         subs = Subscribers.query.all()
         for sub in subs:
-            notification_message(post_title, 
+            notification_message(post_title,
                             "email/notification", sub.email, new_post = new_post)
             pass
         return redirect(url_for("main.post", id = new_post.id))
-    
+
     return render_template("new_post.html",
                             post_form = post_form)
 
@@ -129,7 +129,7 @@ def profile(id):
         new_sub = Subscribers(email = request.form.get("subscriber"))
         db.session.add(new_sub)
         db.session.commit()
-        welcome_message("Thank you for subscribing to the CM blog", 
+        welcome_message("Thank you for subscribing to the CM blog",
                         "email/welcome", new_sub.email)
 
     return render_template("profile/profile.html",
@@ -159,7 +159,7 @@ def update_profile(id):
         db.session.add(user)
         db.session.commit()
         return redirect(url_for("main.profile", id = id))
-    
+
     return render_template("profile/update.html",
                             user = user,
                             form = form)
