@@ -17,10 +17,12 @@
                 {%endif%}
                 <div class="profile-usertitle">
                     <div class="profile-usertitle-name">
+                        <small>Names:</small><br>
                         <strong>{{user.first_name}} {{user.last_name}}</strong>
                     </div>
                     <div class="profile-usertitle-job">
-                        <small>{{user.username}}</small>
+                        <small>username:</small>
+                        <small><strong>{{user.username}}</strong></small>
                     </div>
                     {%if user.bio%}
                     <p>~{{user.bio}}~</p>

@@ -7,6 +7,9 @@
             <div class="col-lg-8 col-md-10 mx-auto">
                 <div class="post-heading">
                     <h1>{{post.post_title}}</h1>
+                    <div class="content">
+                        {{post.post_content | safe}}
+                    </div> <br> <br>
                     <span class="meta">Posted by
                         <a href="{{url_for('main.profile', id = post.user_id)}}">{{post.post_by}}</a>
                         on {{post.posted_at.strftime('%B %d, %Y')}}
@@ -25,9 +28,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
-                <div class="content">
-                    {{post.post_content | safe}}
-                </div>
+
             </div>
         </div>
     </div>
@@ -62,13 +63,8 @@
                                     <div class="clearfix"></div>
                                     <p>{{comment.comment}}</p>
                                     <div style="margin-right: 10px;">
-                                        {%if current_user.is_authenticated%}
                                         <a href="{{url_for('main.fav_comment', id = post.id, comment_id = comment.id)}}" style="margin-left: 5px;" class="float-right btn text-white btn-success"> <i class="fas fa-thumbs-up"></i>
                                             {{comment.like_count}}</a>
-                                        {%else%}
-                                        <a class="float-right btn text-white btn-success"> <i class="fas fa-thumbs-up""></i>
-                                            {{comment.like_count}}</a>
-                                        {%endif%}
                                         {%if current_user.is_authenticated%}
                                             {%if current_user.id == post.user_id%}
                                                 <a href="{{url_for('main.delete_comment', id = post.id, comment_id = comment.id)}}" class="float-right btn text-white btn-danger"> <i
