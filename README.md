@@ -82,7 +82,7 @@ You can provide feedback or raise any issues/ bugs through the following means:
 * pascyirabaruta456@gmail.com
 
 ## Live Site link
-You can view the live application by following this [link](https://blog-pascy.herokuapp.com/).
+You can view the live application by following this (https://blog-pascy.herokuapp.com/).
 
 ## License
 #### This project is license  by MIT for more information visit [LICENSE.md](LICENSE.md) .
